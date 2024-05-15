@@ -1,0 +1,31 @@
+name: Scrape XKCD
+on:
+  schedule:
+    - cron: "0 09 */1 * *"
+  workflow_dispatch:
+jobs:
+  get-xkcd-comic:
+    name: Get XKCD comic and publish
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.x"
+          cache: "pip"
+      - name: Run script
+        run: |
+          echo "Running cron job!"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Check codes
+        run: python main.py
+      - name: Commit and push new comic to repo
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Add new XKCD comic"
