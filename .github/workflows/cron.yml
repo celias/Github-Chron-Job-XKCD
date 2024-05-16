@@ -18,6 +18,9 @@ jobs:
         with:
           python-version: "3.x"
           cache: "pip"
+      - name: Install virtualenv
+        run: |
+          python -m pip install virtualenv
       - name: Run script
         run: |
           echo "Running cron job!"
