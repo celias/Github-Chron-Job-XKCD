@@ -1,8 +1,7 @@
-import requests # To get data from XKCD API
+import requests  # To get data from XKCD API
 import datetime
-import logging 
-import os # File operations
-
+import logging
+import os  # File operations
 from urllib.parse import quote
 from typing import Dict
 
@@ -11,7 +10,6 @@ CONTENT_DIR = os.path.join(MD_DIR, "index.md")
 DATE_FORMAT = "%Y-%m-%d"
 TITLE_FORMAT = "{date}_{title}.md"
 DATA_URL = "https://xkcd.com/{page_no}/info.0.json"
-
 MARKDOWN_FORMAT = """
 # XKCD Comic for day {date}
 
@@ -21,8 +19,10 @@ MARKDOWN_FORMAT = """
 
 [Visit the original page](https://xkcd.com/{num}/)
 """
-
 CONTENT_PAGE_SPLIT = f"| {'-'*10} | {'-'*50} | {'-'*142} |"
+
+
+
 
 def generate_file_name(title: str, date: str) -> str:
     """Generate the file name for the markdown file to be written"""
@@ -31,21 +31,31 @@ def generate_file_name(title: str, date: str) -> str:
 
 def generate_markdown(title: str, img_url: str, alt: str, num: int, date: str) -> str:
     """Generate the markdown content"""
-    return MARKDOWN_FORMAT.format(date=date, title=title, img_url=img_url, alt=alt, num=num)
+    return MARKDOWN_FORMAT.format(
+        date=date, title=title, img_url=img_url, alt=alt, num=num
+    )
 
 
 def generate_content_line(title: str, date: str, url_path: str) -> str:
     """Generate the content line for the content page"""
-    link_format = f"[Link](./{quote(url_path)} \"{title}\")"
+    link_format = f'[Link](./{quote(url_path)} "{title}")'
     return f"| {date:10} | {title:50} | {link_format:142} |"
 
 
 def insert_to_content_page(title: str, date: str, file_name: str):
     """Insert the markdown content into the content page"""
-    with open(CONTENT_DIR, "r") as file:
-        data = file.read()
+    with open('docs/index.md', 'w') as file:
+     file.write("# XKCD Comics\n")
+     file.write(CONTENT_PAGE_SPLIT)
 
-    headers, contents = data.split(CONTENT_PAGE_SPLIT)
+    with open('docs/index.md', 'r') as file:
+     data = file.read()
+
+    if CONTENT_PAGE_SPLIT in data:
+        headers, contents = data.split(CONTENT_PAGE_SPLIT)
+    else:
+        print(f"'{CONTENT_PAGE_SPLIT}' not found in data")
+        return  # or handle this case as needed
     result = [headers.strip(), CONTENT_PAGE_SPLIT.strip()]
     line_set = set(filter(lambda x: x.strip(), contents.split("\n")))
 
@@ -59,7 +69,7 @@ def insert_to_content_page(title: str, date: str, file_name: str):
         f.write("\n")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Setup logging
     logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger(__name__)
@@ -74,7 +84,9 @@ if __name__ == '__main__':
         )
 
         if response.status_code >= 400:
-            logger.critical(f"Failed to get the data from the API. Status code: {response.status_code}")
+            logger.critical(
+                f"Failed to get the data from the API. Status code: {response.status_code}"
+            )
             exit(1)
 
         data: Dict[str, str] = response.json()
