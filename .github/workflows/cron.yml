@@ -1,11 +1,11 @@
-name: Scrape XKCD
+name: Scrap XKCD Comic
 on:
   schedule:
-    - cron: "45 11 * * *"
+    - cron: "0 0 */1 * *"
   workflow_dispatch:
 jobs:
   get-xkcd-comic:
-    name: Get XKCD comic and publish
+    name: Get XKCD Comic and Publish
     runs-on: ubuntu-latest
     environment: production
     permissions:
@@ -16,24 +16,13 @@ jobs:
           ref: main
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.x"
+          python-version: "3.11.x"
           cache: "pip"
-      - name: Install virtualenv
-        run: |
-          python -m pip install virtualenv
-      - name: Run script
-        run: |
-          echo "Running cron job!"
       - name: Install dependencies
-        run: |
-          python -m virtualenv virtualenv
-          . virtualenv/bin/activate
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
       - name: Check codes
-        run: |
-          . virtualenv/bin/activate
-          python main.py
-      - name: Commit and push new comic to repo
+        run: python main.py
+      - name: Update repo with new data
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Add new XKCD comic"
+          commit_message: "chore: update xkcd comic"
