@@ -46,7 +46,7 @@ def insert_to_content_page(title: str, date: str, file_name: str):
         data = file.read()
     # print("Delimiter:", CONTENT_PAGE_SPLIT)
     # print(data)
-    headers, contents = data.split(CONTENT_PAGE_SPLIT)
+    headers, contents = data.split(CONTENT_PAGE_SPLIT, 1)
     result = [headers.strip(), CONTENT_PAGE_SPLIT.strip()]
     line_set = set(filter(lambda x: x.strip(), contents.split("\n")))
 
