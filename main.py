@@ -45,6 +45,7 @@ def insert_to_content_page(title: str, date: str, file_name: str):
     with open(CONTENT_DIR, "r") as file:
         data = file.read()
 
+    print(data)
     headers, contents = data.split(CONTENT_PAGE_SPLIT)
     result = [headers.strip(), CONTENT_PAGE_SPLIT.strip()]
     line_set = set(filter(lambda x: x.strip(), contents.split("\n")))
@@ -94,5 +95,6 @@ if __name__ == '__main__':
             generate_markdown(title, img_url, alt, int(num), date_str),
         )
 
+    print(data)
     # Update the content page
     insert_to_content_page(title, date_str, file_name.strip(".md"))
