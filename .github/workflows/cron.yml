@@ -1,4 +1,4 @@
-name: Scrap XKCD Comic
+name: Scrape XKCD Comic
 on:
   schedule:
     - cron: "0 0 */1 * *"
