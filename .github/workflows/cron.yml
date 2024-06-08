@@ -1,7 +1,7 @@
 name: Scrape XKCD Comic
 on:
   # schedule:
-  # - cron: "0 */12 * * *"
+  #   - cron: "0 */12 * * *"
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: ["main"]
@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.action }}
+          ref: "main"
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12.x"
