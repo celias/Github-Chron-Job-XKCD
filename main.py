@@ -46,11 +46,11 @@ def insert_to_content_page(title: str, date: str, file_name: str):
         data = file.read()
     # print("Delimiter:", CONTENT_PAGE_SPLIT)
     # print(data)
-    with open('/Users/gabdiventura/gh-chronjob-xkcd/docs/index.md', 'w') as file:
+    with open(CONTENT_DIR, 'w') as file:
         file.write("# XKCD Comics\n")
         file.write(CONTENT_PAGE_SPLIT)
 
-    with open('/Users/gabdiventura/gh-chronjob-xkcd/docs/index.md', 'r') as file:
+    with open(CONTENT_DIR, 'r') as file:
         data = file.read()
 
     if CONTENT_PAGE_SPLIT in data:
