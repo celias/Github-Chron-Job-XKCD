@@ -12,9 +12,10 @@ jobs:
   get-xkcd-comic:
     name: Get XKCD Comic and Publish
     runs-on: ubuntu-latest
-    environment: github-pages
+    # environment: github-pages
     permissions:
-      contents: write
+      contents: read
+      pages: write
       id-token: write
     steps:
       - uses: actions/checkout@v4
@@ -48,3 +49,21 @@ jobs:
   #       uses: actions/deploy-pages@v4.0.5
   #       with:
   #
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload entire repository
+          path: "."
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
