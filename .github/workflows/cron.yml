@@ -4,9 +4,9 @@ on:
   # - cron: "0 */12 * * *"
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
+    branches: ["bug/auto-deploy"]
+  # pull_request:
+  #   branches: ["main"]
   workflow_dispatch:
 jobs:
   get-xkcd-comic:
