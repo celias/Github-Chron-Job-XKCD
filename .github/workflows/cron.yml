@@ -22,7 +22,7 @@ jobs:
   get-xkcd-comic:
     name: Get XKCD Comic and Publish
     runs-on: ubuntu-latest
-    # environment: github-pages
+    environment: github-pages
 
     steps:
       - uses: actions/checkout@v4
