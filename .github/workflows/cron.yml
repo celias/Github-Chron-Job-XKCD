@@ -4,7 +4,7 @@ on:
   # - cron: "0 */12 * * *"
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: ["bug/auto-deploy"]
+    branches: ["main"]
   # pull_request:
   #   branches: ["main"]
   workflow_dispatch:
@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: "bug/auto-deploy"
+          ref: "main"
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12.x"
