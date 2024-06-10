@@ -1,4 +1,4 @@
-name: Scrape XKCD Comic
+name: Scrape and Deploy XKCD Comic
 on:
   schedule:
     - cron: "0 */12 * * *"
@@ -19,8 +19,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  get-xkcd-comic:
-    name: Get XKCD Comic and Publish
+  build:
+    name: Scraping and Committing XKCD Comic
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -29,6 +29,10 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.XKCD_DEPLOY }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: my-artifact
+          path: dist
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12.x"
@@ -44,7 +48,7 @@ jobs:
 
   # deploy:
   #   name: Deploy to GitHub Pages
-  #   needs: get-xkcd-comic
+  #   needs: build
   #   environment:
   #     name: github-pages
   #     url: {{ steps.deployment.outputs.page_url }}
@@ -55,13 +59,3 @@ jobs:
   #       with:
   #         ref: {{ github.head_ref }}
   #         token: {{ secrets.XKCD_DEPLOY }}
-  # - name: Setup Pages
-  #   uses: actions/configure-pages@v5
-  # - name: Upload artifact
-  #   uses: actions/upload-pages-artifact@v3
-  #   with:
-  #     # Upload entire repository
-  #     path: "."
-  # - name: Deploy to GitHub Pages
-  #   id: deployment
-  #   uses: actions/deploy-pages@v4
