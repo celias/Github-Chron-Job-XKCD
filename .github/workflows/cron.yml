@@ -22,12 +22,13 @@ jobs:
   get-xkcd-comic:
     name: Get XKCD Comic and Publish
     runs-on: ubuntu-latest
-    environment: github-pages
-
+    environment:
+      name: github-pages
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
+          token: ${{ secrets.XKCD_DEPLOY }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12.x"
@@ -41,26 +42,26 @@ jobs:
         with:
           commit_message: "chore: update xkcd comic"
 
-  deploy:
-    name: Deploy to GitHub Pages
-    needs: get-xkcd-comic
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
-          token: ${{ secrets.XKCD_DEPLOY }}
-      # - name: Setup Pages
-      #   uses: actions/configure-pages@v5
-      # - name: Upload artifact
-      #   uses: actions/upload-pages-artifact@v3
-      #   with:
-      #     # Upload entire repository
-      #     path: "."
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+  # deploy:
+  #   name: Deploy to GitHub Pages
+  #   needs: get-xkcd-comic
+  #   environment:
+  #     name: github-pages
+  #     url: {{ steps.deployment.outputs.page_url }}
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+  #       with:
+  #         ref: {{ github.head_ref }}
+  #         token: {{ secrets.XKCD_DEPLOY }}
+  # - name: Setup Pages
+  #   uses: actions/configure-pages@v5
+  # - name: Upload artifact
+  #   uses: actions/upload-pages-artifact@v3
+  #   with:
+  #     # Upload entire repository
+  #     path: "."
+  # - name: Deploy to GitHub Pages
+  #   id: deployment
+  #   uses: actions/deploy-pages@v4
