@@ -12,7 +12,7 @@ jobs:
   get-xkcd-comic:
     name: Get XKCD Comic and Publish
     runs-on: ubuntu-latest
-    # environment: github-pages
+    environment: github-pages
     permissions:
       contents: write
       id-token: write
@@ -24,11 +24,6 @@ jobs:
         with:
           python-version: "3.12.x"
           cache: "pip"
-      # Upload generated artifact
-      - name: Upload pages artifact
-        uses: actions/upload-pages-artifact@v3.0.1
-        with:
-          path: docs
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Check codes
@@ -39,12 +34,16 @@ jobs:
           commit_message: "chore: update xkcd comic"
   deploy:
     runs-on: ubuntu-latest
-    environment: github-pages
+    environment:
+      name: github-pages
     needs: get-xkcd-comic
     permissions:
       id-token: write
       pages: write
     steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: "main"
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4.0.5
         with:
