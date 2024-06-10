@@ -76,7 +76,7 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger(__name__)
     current_time = datetime.datetime.now()
-    project_start_date = datetime.datetime(2024, 6, 10)
+    project_start_date = datetime.datetime(2024, 3, 17)
     day_since_creation = current_time - project_start_date
 
     # Call the api
