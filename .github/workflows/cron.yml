@@ -24,6 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
+      url: ${{ github.api_url }}
     steps:
       - uses: actions/checkout@v4
         with:
