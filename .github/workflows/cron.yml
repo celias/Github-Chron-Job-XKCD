@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -27,7 +27,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: main
+          ref: ${{ github.head_ref }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12.x"
@@ -40,22 +40,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: update xkcd comic"
-  # deploy:
-  #   runs-on: ubuntu-latest
-  #   environment:
-  #     name: github-pages
-  #   needs: get-xkcd-comic
-  #   permissions:
-  #     id-token: write
-  #     pages: write
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #       with:
-  #         ref: "main"
-  #     - name: Deploy to GitHub Pages
-  #       uses: actions/deploy-pages@v4.0.5
-  #       with:
-  #
+
   deploy:
     name: Deploy to GitHub Pages
     needs: get-xkcd-comic
@@ -67,7 +52,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: "main"
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.XKCD_DEPLOY }}
       # - name: Setup Pages
       #   uses: actions/configure-pages@v5
       # - name: Upload artifact
