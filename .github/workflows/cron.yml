@@ -1,10 +1,10 @@
 name: Scrape XKCD Comic
 on:
-  # schedule:
-  # - cron: "0 */12 * * *"
+  schedule:
+    - cron: "0 */12 * * *"
   # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: ["main"]
+  # push:
+  #   branches: ["main"]
   # pull_request:
   #   branches: ["main"]
   workflow_dispatch:
@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: "main"
+          ref: main
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12.x"
@@ -32,19 +32,19 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: update xkcd comic"
-  deploy:
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-    needs: get-xkcd-comic
-    permissions:
-      id-token: write
-      pages: write
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: "main"
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4.0.5
-        with:
-          token: ${{ secrets.XKCD_DEPLOY }}
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   environment:
+  #     name: github-pages
+  #   needs: get-xkcd-comic
+  #   permissions:
+  #     id-token: write
+  #     pages: write
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #       with:
+  #         ref: "main"
+  #     - name: Deploy to GitHub Pages
+  #       uses: actions/deploy-pages@v4.0.5
+  #       with:
+  #
