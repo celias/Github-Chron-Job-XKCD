@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
+        id: checkout
         uses: actions/checkout@v4
         with:
           ref: "main"
@@ -27,13 +28,17 @@ jobs:
         with:
           commit_message: "Chore: Update XKCD Comic"
           # file_pattern: "docs/* xkcd.json"
+    outputs:
+      url: ${{ steps.checkout.outputs.url }}
   publish:
     needs: scrape
     runs-on: ubuntu-latest
     permissions:
       id-token: write
       pages: write
-
+    environment:
+      name: github-pages
+      url: ${{ needs.scrape.outputs.url }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
