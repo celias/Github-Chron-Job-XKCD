@@ -24,11 +24,6 @@ jobs:
         with:
           python-version: "3.12.x"
           cache: "pip"
-      # Upload generated artifact
-      - name: Upload pages artifact
-        uses: actions/upload-pages-artifact@v3.0.1
-        with:
-          path: docs
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Check codes
