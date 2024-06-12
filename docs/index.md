@@ -1,3 +1,8 @@
-# XKCD Comics
+# XKCD Daily Scraper
 
-<!-- Content Page Split -->
+All images here belong to [xkcd.com](https://xkcd.com "xkcd.com")
+
+## Comics
+
+| Date | Title | Link |
+| ---- | ----- | ---- |
