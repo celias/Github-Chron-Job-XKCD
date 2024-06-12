@@ -1,7 +1,7 @@
-import requests    
-import datetime     
-import logging      
-import os           
+import requests     # To get the data from the API
+import datetime     # To get the current date
+import logging      # To log our flow
+import os           # File operations
 
 from urllib.parse import quote
 from typing import Dict
@@ -40,40 +40,23 @@ def generate_content_line(title: str, date: str, url_path: str) -> str:
     return f"| {date:10} | {title:50} | {link_format:142} |"
 
 
-
 def insert_to_content_page(title: str, date: str, file_name: str):
-    """Insert the markdown content at the beginning of the content page"""
+    """Insert the markdown content into the content page"""
+    with open(CONTENT_DIR, "r") as file:
+        data = file.read()
 
-    
+    headers, contents = data.split(CONTENT_PAGE_SPLIT)
+    result = [headers.strip(), CONTENT_PAGE_SPLIT.strip()]
+    line_set = set(filter(lambda x: x.strip(), contents.split("\n")))
 
     new_line = generate_content_line(title, date, file_name)
-
-    with open(CONTENT_DIR, "r+") as file:
-        content = file.read()
-
-    # Check if CONTENT_PAGE_SPLIT is already in the file
-    if CONTENT_PAGE_SPLIT not in content:
-        # If not, append it to the end of the file
-        with open('index.md', 'a') as file:
-            file.write('\n' + CONTENT_PAGE_SPLIT)
-
-        # Check if the new line is already present
-        if new_line in content:  # Exact match
-            return  # Skip if the line already exists
-
-        # Find the position of the split
-        split_pos = content.find(CONTENT_PAGE_SPLIT)
-        if split_pos == -1:
-            raise ValueError(f"Could not find split '{CONTENT_PAGE_SPLIT}' in index.md")
-
-        # Insert the new line after the split
-        new_content = (
-            content[:split_pos + len(CONTENT_PAGE_SPLIT)] + "\n" + new_line + content[split_pos + len(CONTENT_PAGE_SPLIT):]
-        )
-        
-        # Rewrite the file with the new content
-        file.seek(0)
-        file.write(new_content)
+    line_set.add(new_line)
+    lines = list(line_set)
+    lines.sort(key=lambda x: x.split("|")[1], reverse=True)
+    result.extend(lines)
+    with open(CONTENT_DIR, "w") as f:
+        f.write("\n".join(filter(lambda x: len(x.strip()) > 0, result)))
+        f.write("\n")
 
 
 if __name__ == '__main__':
@@ -111,6 +94,5 @@ if __name__ == '__main__':
             generate_markdown(title, img_url, alt, int(num), date_str),
         )
 
-    # print(data)
     # Update the content page
     insert_to_content_page(title, date_str, file_name.strip(".md"))
