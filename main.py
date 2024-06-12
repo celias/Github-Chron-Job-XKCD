@@ -21,7 +21,7 @@ MARKDOWN_FORMAT = """
 
 [Visit the original page](https://xkcd.com/{num}/)
 """
-CONTENT_PAGE_SPLIT = f"| {'-'*10} | {'-'*50} | {'-'*142} |"
+CONTENT_PAGE_SPLIT = "| ---- | ----- | ---- |"
 
 
 def generate_file_name(title: str, date: str) -> str:
