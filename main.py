@@ -40,43 +40,22 @@ def generate_content_line(title: str, date: str, url_path: str) -> str:
     return f"| {date:10} | {title:50} | {link_format:142} |"
 
 
-# def insert_to_content_page(title: str, date: str, file_name: str):
-    """Insert the markdown content into the content page"""
-    with open(CONTENT_DIR, "r") as file:
-        data = file.read()
-    # print("Delimiter:", CONTENT_PAGE_SPLIT)
-    # print(data)
-    with open(CONTENT_DIR, 'w') as file:
-        file.write("# XKCD Comics\n")
-        file.write(CONTENT_PAGE_SPLIT)
-
-    with open(CONTENT_DIR, 'r') as file:
-        data = file.read()
-
-    # if CONTENT_PAGE_SPLIT in data:
-        headers, contents = data.split(CONTENT_PAGE_SPLIT)
-    # else:
-    #     print(f"'{CONTENT_PAGE_SPLIT}' not found in data")
-    #     return  # or handle this case as needed
-    result = [headers.strip(), CONTENT_PAGE_SPLIT.strip()]
-    line_set = set(filter(lambda x: x.strip(), contents.split("\n")))
-
-    new_line = generate_content_line(title, date, file_name)
-    line_set.add(new_line)
-    lines = list(line_set)
-    lines.sort(key=lambda x: x.split("|")[1], reverse=True)
-    result.extend(lines)
-    with open(CONTENT_DIR, "w") as f:
-        f.write("\n".join(filter(lambda x: len(x.strip()) > 0, result)))
-        f.write("\n")
 
 def insert_to_content_page(title: str, date: str, file_name: str):
     """Insert the markdown content at the beginning of the content page"""
+
+    
 
     new_line = generate_content_line(title, date, file_name)
 
     with open(CONTENT_DIR, "r+") as file:
         content = file.read()
+
+    # Check if CONTENT_PAGE_SPLIT is already in the file
+    if CONTENT_PAGE_SPLIT not in content:
+        # If not, append it to the end of the file
+        with open('index.md', 'a') as file:
+            file.write('\n' + CONTENT_PAGE_SPLIT)
 
         # Check if the new line is already present
         if new_line in content:  # Exact match
