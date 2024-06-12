@@ -8,7 +8,7 @@ from typing import Dict
 
 
 MD_DIR = "docs"
-CONTENT_DIR = os.path.join(MD_DIR, "index.md")
+CONTENT_DIR = os.path.join(MD_DIR, "/index.md")
 DATE_FORMAT = "%Y-%m-%d"
 TITLE_FORMAT = "{date}_{title}.md"
 DATA_URL = "https://xkcd.com/80/info.0.json"
