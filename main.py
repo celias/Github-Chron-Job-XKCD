@@ -42,7 +42,7 @@ def generate_content_line(title: str, date: str, url_path: str) -> str:
 
 def insert_to_content_page(title: str, date: str, file_name: str):
     """Insert the markdown content into the content page"""
-    with open("docs/index.md", "r") as file:
+    with open("docs", "r") as file:
         data = file.read()
 
     headers, contents = data.split(CONTENT_PAGE_SPLIT)
