@@ -11,7 +11,7 @@ MD_DIR = "docs"
 CONTENT_DIR = os.path.join(MD_DIR, "index.md")
 DATE_FORMAT = "%Y-%m-%d"
 TITLE_FORMAT = "{date}_{title}.md"
-DATA_URL = "https://xkcd.com/80/info.0.json"
+DATA_URL = "https://xkcd.com/{page_no}/info.0.json"
 MARKDOWN_FORMAT = """
 # XKCD Comic for day {date}
 
@@ -42,7 +42,7 @@ def generate_content_line(title: str, date: str, url_path: str) -> str:
 
 def insert_to_content_page(title: str, date: str, file_name: str):
     """Insert the markdown content into the content page"""
-    with open("docs", "r") as file:
+    with open(CONTENT_DIR, "r") as file:
         data = file.read()
 
     headers, contents = data.split(CONTENT_PAGE_SPLIT)
