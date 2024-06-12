@@ -7,7 +7,7 @@ from urllib.parse import quote
 from typing import Dict
 
 
-MD_DIR = "./docs"
+MD_DIR = "docs"
 CONTENT_DIR = os.path.join(MD_DIR, "index.md")
 DATE_FORMAT = "%Y-%m-%d"
 TITLE_FORMAT = "{date}_{title}.md"
