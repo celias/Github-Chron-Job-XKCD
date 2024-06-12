@@ -11,7 +11,7 @@ MD_DIR = "docs"
 CONTENT_DIR = os.path.join(MD_DIR, "index.md")
 DATE_FORMAT = "%Y-%m-%d"
 TITLE_FORMAT = "{date}_{title}.md"
-DATA_URL = "https://xkcd.com/{page_no}/info.0.json"
+DATA_URL = "https://xkcd.com/86/info.0.json"
 MARKDOWN_FORMAT = """
 # XKCD Comic for day {date}
 
@@ -19,7 +19,7 @@ MARKDOWN_FORMAT = """
 
 ![{title}]({img_url} "{alt}")
 
-[Visit the original page](https://xkcd.com/86/)
+[Visit the original page](https://xkcd.com/{num}/)
 """
 CONTENT_PAGE_SPLIT = f"| {'-'*10} | {'-'*50} | {'-'*142} |"
 
@@ -41,34 +41,34 @@ def generate_content_line(title: str, date: str, url_path: str) -> str:
 
 
 # def insert_to_content_page(title: str, date: str, file_name: str):
-    """Insert the markdown content into the content page"""
-    with open(CONTENT_DIR, "r") as file:
-        data = file.read()
-    # print("Delimiter:", CONTENT_PAGE_SPLIT)
-    # print(data)
-    with open(CONTENT_DIR, 'w') as file:
-        file.write("# XKCD Comics\n")
-        file.write(CONTENT_PAGE_SPLIT)
+    # """Insert the markdown content into the content page"""
+    # with open(CONTENT_DIR, "r") as file:
+    #     data = file.read()
+    # # print("Delimiter:", CONTENT_PAGE_SPLIT)
+    # # print(data)
+    # with open(CONTENT_DIR, 'w') as file:
+    #     file.write("# XKCD Comics\n")
+    #     file.write(CONTENT_PAGE_SPLIT)
 
-    with open(CONTENT_DIR, 'r') as file:
-        data = file.read()
+    # with open(CONTENT_DIR, 'r') as file:
+    #     data = file.read()
 
-    # if CONTENT_PAGE_SPLIT in data:
-        headers, contents = data.split(CONTENT_PAGE_SPLIT)
-    # else:
-    #     print(f"'{CONTENT_PAGE_SPLIT}' not found in data")
-    #     return  # or handle this case as needed
-    result = [headers.strip(), CONTENT_PAGE_SPLIT.strip()]
-    line_set = set(filter(lambda x: x.strip(), contents.split("\n")))
+    # # if CONTENT_PAGE_SPLIT in data:
+    #     headers, contents = data.split(CONTENT_PAGE_SPLIT)
+    # # else:
+    # #     print(f"'{CONTENT_PAGE_SPLIT}' not found in data")
+    # #     return  # or handle this case as needed
+    # result = [headers.strip(), CONTENT_PAGE_SPLIT.strip()]
+    # line_set = set(filter(lambda x: x.strip(), contents.split("\n")))
 
-    new_line = generate_content_line(title, date, file_name)
-    line_set.add(new_line)
-    lines = list(line_set)
-    lines.sort(key=lambda x: x.split("|")[1], reverse=True)
-    result.extend(lines)
-    with open(CONTENT_DIR, "w") as f:
-        f.write("\n".join(filter(lambda x: len(x.strip()) > 0, result)))
-        f.write("\n")
+    # new_line = generate_content_line(title, date, file_name)
+    # line_set.add(new_line)
+    # lines = list(line_set)
+    # lines.sort(key=lambda x: x.split("|")[1], reverse=True)
+    # result.extend(lines)
+    # with open(CONTENT_DIR, "w") as f:
+    #     f.write("\n".join(filter(lambda x: len(x.strip()) > 0, result)))
+    #     f.write("\n")
 
 def insert_to_content_page(title: str, date: str, file_name: str):
     """Insert the markdown content at the beginning of the content page"""
