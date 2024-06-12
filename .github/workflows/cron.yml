@@ -16,6 +16,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: "main"
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
       - name: Build
         uses: actions/jekyll-build-pages@v1
         with:
@@ -36,8 +38,6 @@ jobs:
           commit_message:
             "Chore: Update XKCD Comic"
             # file_pattern: "docs/* xkcd.json"
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
