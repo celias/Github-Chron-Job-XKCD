@@ -26,32 +26,30 @@ jobs:
       - name: Run Python script
         id: run-python-script
         run: python main.py
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
       - name: Build
         uses: actions/jekyll-build-pages@v1
         with:
           destination: "docs"
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: docs
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message:
             "Chore: Update XKCD Comic"
             # file_pattern: "docs/* xkcd.json"
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
   publish:
     runs-on: ubuntu-latest
     needs: scrape
     permissions:
       id-token: write
       pages: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4.0.5
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
