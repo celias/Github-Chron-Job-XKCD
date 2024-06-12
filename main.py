@@ -19,7 +19,7 @@ MARKDOWN_FORMAT = """
 
 ![{title}]({img_url} "{alt}")
 
-[Visit the original page](https://xkcd.com/{num}/)
+[Visit the original page](https://xkcd.com/86/)
 """
 CONTENT_PAGE_SPLIT = f"| {'-'*10} | {'-'*50} | {'-'*142} |"
 
